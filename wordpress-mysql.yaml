@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 3306
+      protocol: TCP
+  type: ClusterIP
+  selector:
+    app: wordpress-mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: mysql
+        name: mysql
+        env:
+            - name:  MYSQL_HOST
+              value: db-stagging.cp9p94zrg0us.ap-southeast-1.rds.amazonaws.com
+            - name:  MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: rafli001
+            - name: MYSQL_DATABASE
+              value: wordpress
+            - name: MYSQL_ROOT_PASSWORD
+              value: rafli001
+
+        ports:
+        - containerPort: 3306
+          name: mysql
+
+        volumeMounts:
+        - name: mysql-pv
+          mountPath: /var/lib/mysql
+
+      volumes:
+      - name: mysql-pv
+        persistentVolumeClaim:
+          claimName: wordpress-mysql-pvc
