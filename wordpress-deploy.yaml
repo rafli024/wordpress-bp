@@ -18,7 +18,7 @@ spec:
       - name:  wordpress-deploy
         image:  wordpress:latest 
         ports:
-        - containerPort:  80
+        - containerPort:  35002
 
         env:
           - name: WORDPRESS_DB_HOST
@@ -61,11 +61,11 @@ kind: Service
 metadata:
   name: wordpress-service
   labels:
-    app: wordpress
+    app: wordpress-service
+  selector:
+    app: wordpress-deploy
 spec:
   ports:
     - port: 80
       protocol: TCP
-  selector:
-    app: wordpress-deploy
-  type: LoadBalancer
+      targetPort: 35002
