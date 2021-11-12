@@ -62,9 +62,9 @@ metadata:
   name: wordpress-service
   labels:
     app: wordpress-service
-  selector:
-    app: wordpress-deploy
 spec:
+  selector: 
+    app: wordpress-deploy
   ports:
     - port: 80
       protocol: TCP
