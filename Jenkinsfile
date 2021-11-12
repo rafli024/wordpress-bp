@@ -25,7 +25,7 @@ pipeline {
         stage('Deploy to K8S'){
             steps{
                 sh'''
-                    cd $WORKSPACE/wordpress-bp    
+                    cd $WORKSPACE    
                     kubectl apply -f .              
                     kubectl describe deployments/wordpress-deploy
                     kubectl get pods -A
