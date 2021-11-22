@@ -65,6 +65,7 @@ metadata:
 spec:
   selector: 
     app: wordpress-deploy
+  type: LoadBalancer
   ports:
     - port: 80
       protocol: TCP
